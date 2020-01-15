@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  todos-graphql:
+    build: ./server
+    image: ${REGISTRY}todos-graphql
+    container_name: todos-graphql
+    restart: always
+    networks:
+      - internal
+    volumes:
+      - todos-data:/usr/src/app/
+
+  todos:
+    build: ./client
+    image: ${REGISTRY}todos-client
+    container_name: todos-client
+    depends_on:
+      - todos-graphql
+    restart: always
+    environment:
+      DOCKER_GRAPHQL_SERVICE: "todos-graphql"
+    env_file:
+      - .env
+    ports:
+      - 3000
+    networks:
+      - web
+      - internal
+    labels:
+      - traefik.http.routers.todos.rule=Host(`todos.${REMOTE:-localhost}`)
+      - traefik.docker.network=web
+
+volumes:
+  todos-data:
+    driver: local
+
+networks:
+  internal:
+    external: false
+  web:
+    external: true

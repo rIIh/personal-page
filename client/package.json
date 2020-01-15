@@ -1,0 +1,45 @@
+{
+  "name": "todos-client",
+  "version": "1.0.0",
+  "description": "React client for Todos",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "ts-node-dev --ignore-watch .next --ignore-watch src/pages --project tsconfig.server.json src/index.ts",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "start": "cross-env NODE_ENV=production node dist/index.js"
+  },
+  "author": "ratiih",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "apollo-boost": "^0.4.7",
+    "apollo-cache-inmemory": "latest",
+    "apollo-client": "latest",
+    "apollo-link-http": "latest",
+    "bulma": "^0.8.0",
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "find-config": "^1.0.0",
+    "graphql": "^14.5.8",
+    "http-proxy-middleware": "^0.20.0",
+    "keycode-js": "^2.0.3",
+    "next": "^9.1.7",
+    "next-apollo": "^3.1.10",
+    "next-with-apollo": "^4.3.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.5",
+    "@types/react": "^16.9.17",
+    "@types/express": "^4.17.2",
+    "@types/http-proxy-middleware": "^0.19.3",
+    "node-sass": "^4.13.0",
+    "typescript": "^3.7.4",
+    "ts-node": "^8.5.4",
+    "ts-node-dev": "^1.0.0-pre.44"
+  }
+}

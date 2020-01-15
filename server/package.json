@@ -1,0 +1,45 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Todo app written with React and GraphQL",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --project tsconfig.json --inspect=5656 src/index.ts",
+    "build": "tsc --project tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rIIh/todos.git"
+  },
+  "keywords": [
+    "react",
+    "graphql",
+    "todo"
+  ],
+  "author": "ratiih",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rIIh/todos/issues"
+  },
+  "homepage": "https://github.com/rIIh/todos#readme",
+  "dependencies": {
+    "typeorm": "^0.2.22",
+    "type-graphql": "^0.17.6",
+    "graphql-tools": "^4.0.6",
+    "dotenv": "^8.2.0",
+    "find-config": "^1.0.0",
+    "graphql": "^14.5.0",
+    "fastify": "^2.11.0",
+    "fastify-gql": "^2.1.0clea",
+    "fastify-cors": "^3.0.1",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.5.0",
+    "ts-node": "^8.5.4",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.7.4"
+  }
+}
