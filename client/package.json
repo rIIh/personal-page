@@ -1,7 +1,7 @@
 {
-  "name": "todos-client",
+  "name": "personal-page",
   "version": "1.0.0",
-  "description": "React client for Todos",
+  "description": "Client for personal page",
   "main": "src/index.ts",
   "scripts": {
     "dev": "ts-node-dev --ignore-watch dist --ignore-watch src/pages --inspect=6565 --project tsconfig.server.json src/index.ts",

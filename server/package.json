@@ -1,16 +1,13 @@
 {
-  "name": "todo",
+  "name": "personal-page-backend",
   "version": "1.0.0",
-  "description": "Todo app written with React and GraphQL",
+  "private": true,
+  "description": "Personal page backend written with GraphQL and Fastify",
   "main": "src/index.ts",
   "scripts": {
     "start": "node dist/index.js",
     "dev": "ts-node-dev --project tsconfig.json --inspect=5656 src/index.ts",
     "build": "tsc --project tsconfig.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rIIh/todos.git"
   },
   "keywords": [
     "react",
@@ -20,9 +17,9 @@
   "author": "ratiih",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rIIh/todos/issues"
+    "url": "https://github.com/rIIh/personal-page/issues"
   },
-  "homepage": "https://github.com/rIIh/todos#readme",
+  "homepage": "https://github.com/rIIh/personal-page#readme",
   "dependencies": {
     "typeorm": "^0.2.22",
     "type-graphql": "^0.17.6",

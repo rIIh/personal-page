@@ -1,8 +1,8 @@
 {
-  "name": "todos_app",
+  "name": "personal-page",
   "version": "1.0.0",
-  "description": "Todos Application on NextJS + GraphQL",
-  "main": "index.js",
+  "private": true,
+  "description": "Personal page",
   "scripts": {
     "start": "concurrently -k \"npm start --prefix client\" \"npm start --prefix server\"",
     "dev": "concurrently -k \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rIIh/TodoApp.git"
+    "url": "git+https://github.com/rIIh/personal-page.git"
   },
   "keywords": [
     "todo",
@@ -29,9 +29,9 @@
   "author": "ratiih",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rIIh/todos/issues"
+    "url": "https://github.com/rIIh/personal-page/issues"
   },
-  "homepage": "https://github.com/rIIh/todos#readme",
+  "homepage": "https://github.com/rIIh/personal-page#readme",
   "devDependencies": {
     "concurrently": "^5.0.2",
     "prettier": "^1.19.1",
