@@ -1,6 +1,335 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans|Raleway|Roboto|Roboto+Condensed&display=swap');
+
+$cod-gray: #0d0d0d;
+$bright-turquoise: #05FCD1;
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+@mixin rounded($width, $height: $width) {
+  @include size($width, $height);
+  border-radius: max($width, $height) / 2;
+}
+@mixin text-stroke($color, $radius: 1px) {
+  -webkit-text-stroke: $color $radius;
+  text-shadow: 0 0 $radius $color;
+}
+
 body {
   display: block;
+  width: 100vw;
   overflow: hidden;
   margin: 0;
-  background-color: #0d0d0d;
+  background-color: $cod-gray;
+}
+h1, h2, h3, p, a, li {
+  color: white;
+  margin: 0;
+  
+  font-family: 'Roboto', 'Roboto Condensed', 'Fira Sans', 'Raleway', sans-serif;
+}
+ul, ol {
+  list-style: none;
+  padding-left: 0;
+}
+main {
+  z-index: 0;
+}
+
+
+.unselectable {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+*:focus, *:active {
+  outline: none;
+}
+* [class*="--hovered"] {
+  color: #0d0d0d;
+}
+
+.wave {
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  z-index: 100;
+  
+  &__element {
+    background-color: white;
+    position: absolute;
+    top: 110%;
+    height: 200%;
+    width: 200%;
+    border-radius: 38%;
+    left: -50%;
+    transform: rotate(360deg);
+    transition: all 0.8s ease;
+    animation: wave 2s linear infinite;
+    
+    @keyframes wave {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}
+
+[class*="pure-u"][class*="--grow"] {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1450px;
+  margin: auto;
+  padding-right: 64px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+}
+.pure-g {
+  letter-spacing: 0;
+  
+  &--stretch {
+    align-content: stretch;
+  }
+  
+  &--column {
+    flex-direction: column;
+  }
+  
+  &--justify-content-space-around {
+    justify-content: space-around;
+  }
+}
+
+.background {
+  z-index: -1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.timeline {
+  $width: 32px;
+  $dot-radius: 4px;
+  
+  overflow: hidden;
+  right: 0;
+  z-index: 1000;
+  height: 77.08vh;
+  
+  position: absolute;
+  top: calc((100vh - 80vh) / 2);
+  width: $width + $dot-radius;
+  background-color: $cod-gray;
+  
+  &__path {
+    position: absolute;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 2px + $dot-radius * 2;
+    top: $width;
+    height: calc(100% - 2 * #{$width});
+  }
+  
+  &__dot {
+    background-color: $bright-turquoise;
+    margin: $dot-radius;
+    @include rounded($dot-radius * 2);
+  }
+  
+  &__divider {
+    flex: 1 0 auto;
+    width: 2px;
+    background-color: $bright-turquoise;
+  }
+  
+  &__arc {
+    position: absolute;
+    border: 2px solid $bright-turquoise; /* the 'strokes' of the arc */
+    box-sizing: border-box;
+    left: $dot-radius;
+    width: $width * 2; /* the width of the innermost element */
+    height: $width * 2; /* the height of the innermost element */
+    border-radius: $width; /* for making the elements 'round' */
+    border-top-color: transparent; /* hiding the top border */
+    border-bottom-color: transparent;
+    transform: rotateZ(45deg);
+    
+    &--top {
+      top: 0;
+      transform: rotateZ(45deg);
+    }
+    
+    &--bottom {
+      bottom: 0;
+      transform: rotateZ(-45deg);
+    }
+  }
+}
+.nav {
+  display: flex;
+  margin-top: 5rem;
+  margin-right: 3rem;
+  margin-left: auto;
+  
+  &__breadcrumb {
+    background-color: $cod-gray;
+    padding: 4px 16px;
+  }
+}
+.breadcrumb {
+  font-size: 30px;
+  font-family: Arial, 'serif';
+  font-weight: bold;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  letter-spacing: -0.4px;
+  
+  &__lead, &__lead_active {
+    font-size: 36px;
+  }
+  
+  &__lead_active, &__link--active {
+    color: $cod-gray;
+    > a {
+      color: $cod-gray;
+      @include text-stroke($bright-turquoise);
+    }
+    @include text-stroke($bright-turquoise);
+  }
+}
+.home {
+  flex-grow: 1;
+  padding: 6rem 0;
+  &__welcome {
+    align-self: center;
+    display: flex;
+  }
+  
+  &__technologies {
+  }
+  
+  &__social_links {
+    align-self: flex-end;
+  }
+}
+.social_links {
+  display: inline-flex;
+  
+  & > li {
+    &:not(:last-child) {
+      padding-right: 8px;
+    }
+  }
+  
+  &__link {
+    position: relative;
+    @include rounded(36px);
+    display: inline-block;
+    border: $bright-turquoise solid 1px;
+    box-shadow: 0 0 1px $bright-turquoise;
+    background-color: $cod-gray;
+    transition: all 0.5s;
+    
+    &:hover {
+      border: white solid 1px;
+      box-shadow: 0 0 1px white;
+    }
+  }
+  
+  &__link:hover &__wave {
+    top: 0;
+  }
+  
+  &__link:hover &__icon {
+    color: black;
+  }
+
+  &__icon {
+    position: relative;
+    color: white;
+    transition: all 0.5s;
+  }
+}
+.welcome {
+  h1 {
+    font-size: 128px;
+    width: fit-content;
+    background-color: $cod-gray;
+  }
+  
+  &__name {
+    @include text-stroke($bright-turquoise);
+    color: $cod-gray;
+  }
+}
+.technologies {
+  background-color: $cod-gray;
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  
+  &__ul {
+    margin: 0;
+    
+    > :not(:last-child) {
+      &::after {
+        content: "\00a0/\00a0 ";
+      }
+    }
+  }
+  
+  &__ul &__element {
+    display: inline-block;
+  }
+  
+  &__ul:not(&__ul--subtext) &__element {
+    font-size: 48px;
+    font-weight: bold;
+    @include text-stroke(white);
+    color: $cod-gray;
+  }
+  
+  &__ul--subtext &__element {
+    font-size: 24px ;
+    color: white;
+  }
+}
+.floating_point {
+  $outer-width: 32px;
+  $inner-width: 8px;
+  &, * {
+    pointer-events: none;
+    z-index: 2000;
+  }
+  
+  > * {
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+  
+  &__outer_dot, &__click_dot {
+    background-color: white;
+    border-radius: 50%;
+  }
+  
+  &__inner_dot {
+    background-color: $bright-turquoise;
+    @include rounded($inner-width);
+  }
 }

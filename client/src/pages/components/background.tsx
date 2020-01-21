@@ -24,6 +24,7 @@ const DotsBackground = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
+    aliveDots = new AliveDots();
 
     window.addEventListener('resize', event => {
       resizeCanvas();
@@ -31,17 +32,18 @@ const DotsBackground = () => {
       // updateDots({ width: window.innerWidth, height: window.innerHeight });
     });
     resizeCanvas();
+    aliveDots?.resize({ width: window.innerWidth, height: window.innerHeight });
 
-    aliveDots = new AliveDots();
     // updateDots({ width: window.innerWidth, height: window.innerHeight });
     window.requestAnimationFrame(() => loop(canvas, context));
+
+    // document.addEventListener('mouseenter', () => aliveDots?.onFocus());
+    // document.addEventListener('mousemove', (e) => aliveDots?.mouseMovementHandler(e));
+    // document.addEventListener('mouseleave', () => aliveDots?.onBlurred());
   }, []);
 
   return (
-      <canvas ref={canvas}
-              onMouseMove={aliveDots?.mouseMovementHandler ?? undefined}
-              onMouseLeave={aliveDots?.onBlurred}
-              onMouseEnter={aliveDots?.onFocus}>Canvas Not supported</canvas>
+      <canvas ref={canvas} className="background">Canvas Not supported</canvas>
   );
 };
 
