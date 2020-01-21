@@ -42,8 +42,8 @@ export class Grid<T> implements Iterable<{ object: T; x: number; y: number }> {
   }
 
   addRow(count: number, factory: GridItemFactory<T>) {
-    for (let x = 0; x < this.getWidth(); x++) {
-      let height = this.getHeight();
+    let width = this.getWidth(), height = this.getHeight();
+    for (let x = 0; x < width; x++) {
       for (let y = height; y < height + count; y++) {
         this.grid[x][y] = factory(x, y);
       }
@@ -51,10 +51,10 @@ export class Grid<T> implements Iterable<{ object: T; x: number; y: number }> {
   }
 
   addColumn(count: number, factory: GridItemFactory<T>) {
-    let width = this.getWidth();
+    let width = this.getWidth(), height = this.getHeight();
     for (let x = width; x < width + count; x++) {
       this.grid[x] = [];
-      for (let y = 0; y < this.getHeight(); y++) {
+      for (let y = 0; y < height; y++) {
         this.grid[x][y] = factory(x, y);
       }
     }

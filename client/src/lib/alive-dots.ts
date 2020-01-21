@@ -4,14 +4,19 @@ import { Direction, Size, Vector2 } from './vector';
 import anime from 'animejs';
 import React from 'react';
 
+interface Busy {}
+
 export class AliveDots {
   dots: Grid<Dot | null>;
   private emptyNodes: Vector2[] = [];
   private active: boolean = true;
-  private mousePosition: Vector2 = { x: 0, y: 0 };
+  private mousePosition: Vector2 = { x: -3000, y: -3000 };
 
-  screenToGrid(screenSize: number) {
-    return Math.floor((screenSize / this.gap)) + 1;
+  screenToGrid(value: number) {
+    if(value < 0) {
+      console.log(value);
+    }
+    return Math.floor(value / this.gap) + 1;
   }
 
   gridToScreen(i: number) {
@@ -47,15 +52,17 @@ export class AliveDots {
       this.dots.set(emptyNode, neighbour);
       this.emptyNodes.splice(emptyNodeID, 1);
       setTimeout(async () => {
-        await neighbour!.moveTo({ x: emptyNode.x * this.gap, y: emptyNode.y * this.gap });
-        this.dots.set(neighbourID!, null);
-        this.emptyNodes.push(neighbourID!);
+        await neighbour!.moveTo({ x: this.gridToScreen(emptyNode.x), y: this.gridToScreen(emptyNode.y) });
+        neighbour!.gridState = Object.assign(neighbour?.gridState, { x: emptyNode.x, y: emptyNode.y });
+        if (this.dots.validateID(neighbourID!)) {
+          this.dots.set(neighbourID!, null);
+          this.emptyNodes.push(neighbourID!);
+        }
       }, anime.random(0, 2000));
     }
   };
 
-  hmargin: number = 0;
-  vmargin: number = 0;
+  margin: number = 0;
 
   resize(size: Size) {
     let lastWCount = this.dots.getWidth();
@@ -68,10 +75,7 @@ export class AliveDots {
     let deltaHCount = Math.floor((size.height - lastHeight) / this.gap) + 1;
 
     let newWCount = lastWCount + deltaWCount;
-    let newHCount = lastHCount + deltaHCount;
-
-    this.hmargin = (size.width - (newWCount - 1) * this.gap) / 2;
-    this.vmargin = (size.height - (newHCount - 1) * this.gap) / 2;
+    this.margin = (size.width - (newWCount - 1) * this.gap) / 2;
 
     if (deltaWCount < 0) {
       this.dots.removeColumn(this.dots.getWidth() + deltaWCount, -deltaWCount);
@@ -83,23 +87,35 @@ export class AliveDots {
 
     this.emptyNodes = this.emptyNodes.filter(node => this.dots.validateID(node) && this.dots.get(node) === null);
 
-    if (deltaHCount > 0) {
-      this.dots.addRow(deltaHCount, this.dotConstructor);
+    if (deltaWCount > 0) {
+      this.dots.addColumn(deltaWCount, this.randomlyKilledDot);
     }
 
-    if (deltaWCount > 0) {
-      this.dots.addRow(deltaWCount, this.dotConstructor);
+    if (deltaHCount > 0) {
+      this.dots.addRow(deltaHCount, this.randomlyKilledDot);
     }
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    for (let dot of this.dots) {
-      dot.object?.draw(ctx, { x: this.hmargin, y: this.vmargin });
+    for (let { object: dot, x, y } of this.dots) {
+      dot?.draw(ctx, { x: this.margin, y: this.margin });
     }
   }
 
-  dotConstructor: GridItemFactory<Dot> = (x, y) => {
-    return new Dot( () => this.mousePosition,() => !this.active, this.gridToScreen(x), this.gridToScreen(y));
+  randomlyKilledDot: GridItemFactory<Dot> = (x, y) => {
+    const isKilled = Math.random() > 0.85;
+    const dot = new Dot( () => this.mousePosition,() => !this.active, this.gridToScreen(x), this.gridToScreen(y));
+    if (isKilled) {
+      setTimeout(async () => {
+        await dot?.ready;
+        await dot?.kill();
+        if(this.dots.validateID({ x, y })) {
+          this.dots.set({ x, y }, null);
+          this.emptyNodes.push({ x, y });
+        }
+      }, anime.random(500, 3000));
+    }
+    return dot;
   };
 
   constructor(gap: number = 68) {
@@ -108,19 +124,8 @@ export class AliveDots {
       width: this.screenToGrid(window.innerWidth),
       height: this.screenToGrid(window.innerHeight),
     };
-    this.dots = new Grid(gridSize, this.dotConstructor);
+    this.dots = new Grid(gridSize, this.randomlyKilledDot);
 
-    for (let { object: dot, x, y } of this.dots) {
-      const isKilled = Math.random() > 0.85;
-      if (isKilled) {
-        setTimeout(async () => {
-          await dot?.ready;
-          await dot?.kill();
-          this.dots.set({ x, y }, null);
-          this.emptyNodes.push({ x, y });
-        }, anime.random(500, 3000));
-      }
-    }
     this.interval = setInterval(this.update, 500);
   }
 
@@ -132,7 +137,7 @@ export class AliveDots {
     this.active = true;
   }
 
-  mouseMovementHandler({ clientX: x, clientY: y }: React.MouseEvent) {
+  mouseMovementHandler({ clientX: x, clientY: y }: MouseEvent) {
     this.mousePosition = { x, y };
   }
 }
