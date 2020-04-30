@@ -31,7 +31,7 @@
     "next": "^9.1.7",
     "next-apollo": "^3.1.10",
     "next-with-apollo": "^4.3.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-spring": "^8.0.27"
