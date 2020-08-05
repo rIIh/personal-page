@@ -27,7 +27,7 @@
     "dotenv": "^8.2.0",
     "find-config": "^1.0.0",
     "graphql": "^14.5.0",
-    "fastify": "^2.11.0",
+    "fastify": "^2.15.1",
     "fastify-gql": "^2.1.0clea",
     "fastify-cors": "^3.0.1",
     "reflect-metadata": "^0.1.13",
