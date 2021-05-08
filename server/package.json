@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/rIIh/personal-page#readme",
   "dependencies": {
-    "typeorm": "^0.2.22",
+    "typeorm": "^0.2.25",
     "type-graphql": "^0.17.6",
     "graphql-tools": "^4.0.6",
     "dotenv": "^8.2.0",
